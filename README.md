@@ -30,6 +30,12 @@
 3.CUDA.(optional)<br>
 该项目的代码可能还需要一些python包但我没列出来，请自行pip一下。<br><br>
 
+-----
+pip3 install tensorflow==1.15.4
+pip3 install opencv-python
+pip3 install pyexcel_xls
+pip3 install tensorflow
+pip3 install tensorflow
 ## 项目文件(File contents)
 -----
 
