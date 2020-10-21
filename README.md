@@ -34,7 +34,7 @@
 pip3 install tensorflow==1.15.4
 pip3 install opencv-python
 pip3 install pyexcel_xls
-pip3 install tensorflow
+pip3 install pillow
 pip3 install tensorflow
 ## 项目文件(File contents)
 -----
