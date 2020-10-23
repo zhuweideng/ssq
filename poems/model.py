@@ -24,14 +24,16 @@ def rnn_model(model, input_data, output_data, vocab_size, rnn_size=128, num_laye
               input_num=128,output_num=1,learning_rate=0.01,use_cnn=True):
     """
     construct rnn seq2seq model.
-    :param model: model class
+    :param model: model class  'lstm'
     :param input_data: input data placeholder
     :param output_data: output data placeholder
-    :param vocab_size:
-    :param rnn_size:
-    :param num_layers:
-    :param batch_size:
-    :param learning_rate:
+    :param vocab_size:      49
+    :param rnn_size:        128
+    :param num_layers:      7
+    :param batch_size:      2224
+    :param learning_rate:   0.0001
+    :param input_num :      7
+    :param input_num :      7
     :return:
     """
     end_points = {}
