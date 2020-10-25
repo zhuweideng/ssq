@@ -10,8 +10,8 @@ from poems.resnet import *
 from poems.poems import process_poems, generate_batch
 from ssq_data import *
 # for Windows10：OSError: raw write() returned invalid length 96 (should have been between 0 and 48)
-import win_unicode_console
-win_unicode_console.enable()
+# import win_unicode_console
+# win_unicode_console.enable()
 tf.app.flags.DEFINE_integer('batch_size', 2214, 'batch size.')
 tf.app.flags.DEFINE_float('learning_rate', 0.0001, 'learning rate.')
 tf.app.flags.DEFINE_string('model_dir', os.path.abspath('./model4all_v4'), 'model save path.')
