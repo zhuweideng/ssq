@@ -59,63 +59,63 @@ def run_training():
 
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.9)
     with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=True)) as sess:
-      with tf.device("/gpu:0"):
+        with tf.device("/gpu:0"):
 
-        # with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
-        # sess = tf_debug.LocalCLIDebugWrapperSession(sess=sess)
-        # sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
-        sess.run(init_op)
+            # with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
+            # sess = tf_debug.LocalCLIDebugWrapperSession(sess=sess)
+            # sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
+            sess.run(init_op)
 
-        start_epoch = 0
-        # saver.restore(sess, "E:/workplace/tensorflow_poems-master/model4all/poems-208368")
-        checkpoint = tf.train.latest_checkpoint(FLAGS.model_dir)
-        if checkpoint:
-            saver.restore(sess, checkpoint)
-            print("## restore from the checkpoint {0}".format(checkpoint))
-            start_epoch += int(checkpoint.split('-')[-1])
-        print('## start training...')
-        try:
-            # for epoch in range(start_epoch, FLAGS.epochs):
-            epoch = start_epoch
-            FLAGS.epochs=epoch+100000
-            print('till',FLAGS.epochs)
-            # for epoch in range(start_epoch, FLAGS.epochs):
-            while(epoch<FLAGS.epochs):
-                epoch = epoch + 1
-                n = 0
-                # n_chunk = len(poems_vector) // FLAGS.batch_size
-                # n_chunk = len(batches_inputs) // FLAGS.batch_size
-                n_chunk=math.ceil(len(batches_inputs) / FLAGS.batch_size)
-                for batch in range(n_chunk):
-                    left=(batch+1)*FLAGS.batch_size-len(batches_inputs)
-                    if left<0:
-                        inputdata=batches_inputs[(batch*FLAGS.batch_size):((batch+1)*FLAGS.batch_size)]
-                        outputdata=batches_outputs[(batch*FLAGS.batch_size):((batch+1)*FLAGS.batch_size)]
-                    else:
-                        # temp=batches_inputs[batch*FLAGS.batch_size:len(batches_inputs) ]
-                        # temp.extend(batches_inputs[0:left])
-                        inputdata=batches_inputs[len(batches_inputs)-FLAGS.batch_size:len(batches_inputs)]
-                        # temp=batches_outputs[batch*FLAGS.batch_size:len(batches_inputs) ]
-                        # temp.extend(batches_outputs[0:left])
-                        outputdata=batches_outputs[len(batches_outputs)-FLAGS.batch_size:len(batches_outputs)]
-                    # print(len(inputdata))
-                    loss, _, _ = sess.run([
-                        end_points['total_loss'],
-                        end_points['last_state'],
-                        end_points['train_op']
-                    ], feed_dict={input_data: inputdata, output_targets: outputdata})
-                    # ], feed_dict={input_data: batches_inputs, output_targets: batches_outputs})
-                    n += 1
-                if epoch % 100 == 0:
-                    print('Epoch: %d, batch: %d, training loss: %.6f' % (epoch, batch, loss))
-                if epoch % 50000 == 0:
-                    saver.save(sess, os.path.join(FLAGS.model_dir, FLAGS.model_prefix), global_step=epoch)
-        except KeyboardInterrupt:
-            print('## Interrupt manually, try saving checkpoint for now...')
-        finally:
-            saver.save(sess, os.path.join(FLAGS.model_dir, FLAGS.model_prefix), global_step=epoch)
-            print('## Last epoch were saved, next time will start from epoch {}.'.format(epoch))
-        # saver.save(sess, os.path.join(FLAGS.model_dir, FLAGS.model_prefix), global_step=epoch)
+            start_epoch = 0
+            # saver.restore(sess, "E:/workplace/tensorflow_poems-master/model4all/poems-208368")
+            checkpoint = tf.train.latest_checkpoint(FLAGS.model_dir)
+            if checkpoint:
+                saver.restore(sess, checkpoint)
+                print("## restore from the checkpoint {0}".format(checkpoint))
+                start_epoch += int(checkpoint.split('-')[-1])
+            print('## start training...')
+            try:
+                # for epoch in range(start_epoch, FLAGS.epochs):
+                epoch = start_epoch
+                FLAGS.epochs=epoch+100000
+                print('till',FLAGS.epochs)
+                # for epoch in range(start_epoch, FLAGS.epochs):
+                while(epoch<FLAGS.epochs):
+                    epoch = epoch + 1
+                    n = 0
+                    # n_chunk = len(poems_vector) // FLAGS.batch_size
+                    # n_chunk = len(batches_inputs) // FLAGS.batch_size
+                    n_chunk=math.ceil(len(batches_inputs) / FLAGS.batch_size)
+                    for batch in range(n_chunk):
+                        left=(batch+1)*FLAGS.batch_size-len(batches_inputs)
+                        if left<0:
+                            inputdata=batches_inputs[(batch*FLAGS.batch_size):((batch+1)*FLAGS.batch_size)]
+                            outputdata=batches_outputs[(batch*FLAGS.batch_size):((batch+1)*FLAGS.batch_size)]
+                        else:
+                            # temp=batches_inputs[batch*FLAGS.batch_size:len(batches_inputs) ]
+                            # temp.extend(batches_inputs[0:left])
+                            inputdata=batches_inputs[len(batches_inputs)-FLAGS.batch_size:len(batches_inputs)]
+                            # temp=batches_outputs[batch*FLAGS.batch_size:len(batches_inputs) ]
+                            # temp.extend(batches_outputs[0:left])
+                            outputdata=batches_outputs[len(batches_outputs)-FLAGS.batch_size:len(batches_outputs)]
+                        # print(len(inputdata))
+                        loss, _, _ = sess.run([
+                            end_points['total_loss'],
+                            end_points['last_state'],
+                            end_points['train_op']
+                        ], feed_dict={input_data: inputdata, output_targets: outputdata})
+                        # ], feed_dict={input_data: batches_inputs, output_targets: batches_outputs})
+                        n += 1
+                    if epoch % 100 == 0:
+                        print('Epoch: %d, batch: %d, training loss: %.6f' % (epoch, batch, loss))
+                    if epoch % 50000 == 0:
+                        saver.save(sess, os.path.join(FLAGS.model_dir, FLAGS.model_prefix), global_step=epoch)
+            except KeyboardInterrupt:
+                print('## Interrupt manually, try saving checkpoint for now...')
+            finally:
+                saver.save(sess, os.path.join(FLAGS.model_dir, FLAGS.model_prefix), global_step=epoch)
+                print('## Last epoch were saved, next time will start from epoch {}.'.format(epoch))
+            # saver.save(sess, os.path.join(FLAGS.model_dir, FLAGS.model_prefix), global_step=epoch)
 
 
 def main(_):
