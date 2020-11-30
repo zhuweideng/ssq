@@ -56,7 +56,12 @@ def run_training():
 
     saver = tf.train.Saver(tf.global_variables())
     init_op = tf.group(tf.global_variables_initializer(), tf.local_variables_initializer())
-    with tf.Session() as sess:
+
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.9)
+    with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=True)) as sess:
+      with tf.device("/gpu:0"):
+
+        # with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
         # sess = tf_debug.LocalCLIDebugWrapperSession(sess=sess)
         # sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
         sess.run(init_op)

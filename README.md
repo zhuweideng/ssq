@@ -54,3 +54,7 @@ pip3 install tensorflow
 -----
 设置好参数，运行ssq.py（建议在控制台运行，这样训练到一半可以直接通过按CTRL+C取消训练并保存结果；这样下次训练时可以从上一次的checkpoint继续训练）。训练后，项目目录下会生成一个model文件夹用于保存模型。然后运行ssq_test.py进行预测就可以了。<br>
 该项目在W10, tensorflow 1.4/1.5正常运行。有无GPU均可运行。原则上讲，这项目的模型并不大，且数据量也不大，所以可以直接将所有训练数据作为一个batch进行训练，后续如果需要加深模型，可能要降低batch size。
+
+
+##  docker 操作
+sudo docker cp /home/ghy/test/test.py 48945e4a21b2:/home/ghy/
