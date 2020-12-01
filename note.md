@@ -22,3 +22,7 @@ with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options,log_device_placeme
 
 ```
 https://www.cnblogs.com/wind-chaser/p/11348564.html
+
+[Ubuntu 20.04安装CUDA 11](https://blog.csdn.net/qq_36999834/article/details/107589779)
+
+[RTX3080+Ubuntu18.04+cuda11.1+cudnn8.0.4+TensorFlow1.15.4+PyTorch1.7.0环境配置](https://blog.csdn.net/qq_35635340/article/details/110138215)

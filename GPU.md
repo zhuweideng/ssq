@@ -43,3 +43,8 @@ locality {
 incarnation: 11033687429676096514
 physical_device_desc: "device: XLA_GPU device"
 ]
+
+[nvidia cuda 10 下载](https://developer.nvidia.com/cuda-10.0-download-archive?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1804&target_type=runfilelocal)
+
+
+tensorflow_gpu 1.15 python 3.5-3.7  cuDNN 7.4  CUDA 10
