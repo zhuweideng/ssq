@@ -58,6 +58,7 @@ def rnn_model(model, input_data, output_data, vocab_size, rnn_size=128, num_laye
     if use_cnn:
         with tf.name_scope('fc1'):
             fc1_weights = tf.Variable(  # fully connected, depth 512.
+                # truncated_normal 截断的产生正态分布的随机数，即随机数与均值的差值若大于两倍的标准差，则重新生成
                 tf.truncated_normal([input_num, 128],
                                     # mean=1.0,
                                     stddev=0.1,
