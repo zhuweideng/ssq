@@ -10,7 +10,7 @@ import cv2
 from PIL import Image
 import os
 
-def get_exl_data_by_period(exl_path='./ssq.xls',random_order=False,use_resnet=False,times=10):
+def get_exl_data_by_period(exl_path='./ssq3.xls',random_order=False,use_resnet=False,times=10):
     ssq_data = []
     xls_data = get_data(exl_path)
     # print(type(xls_data))
