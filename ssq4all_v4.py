@@ -9,6 +9,7 @@ from poems.model import rnn_model
 from poems.resnet import *
 from poems.poems import process_poems, generate_batch
 from ssq_data import *
+from utils import log
 # for Windows10：OSError: raw write() returned invalid length 96 (should have been between 0 and 48)
 # import win_unicode_console
 # win_unicode_console.enable()
@@ -34,7 +35,7 @@ def run_training():
     ssqdata=get_exl_data(random_order=False,use_resnet=False)
     # ssqdata=get_dlt_data(random_order=False,use_resnet=True)
     # print(ssqdata[len(ssqdata)-1])
-    batches_inputs=ssqdata[0:(len(ssqdata)-1)]
+    # batches_inputs=ssqdata[0:(len(ssqdata)-1)]
     # ssqdata=get_dlt_data(random_order=False,use_resnet=False)
     batches_outputs = ssqdata[1:(len(ssqdata))]
     ssqdata=get_exl_data_by_period(random_order=False,use_resnet=True,times=FLAGS.times)
@@ -57,10 +58,6 @@ def run_training():
     saver = tf.train.Saver(tf.global_variables())
     init_op = tf.group(tf.global_variables_initializer(), tf.local_variables_initializer())
 
-    # gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.9)
-    # with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=True)) as sess:
-    #     with tf.device("/gpu:0"):
-
     with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
             # sess = tf_debug.LocalCLIDebugWrapperSession(sess=sess)
             # sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
@@ -77,7 +74,7 @@ def run_training():
             try:
                 # for epoch in range(start_epoch, FLAGS.epochs):
                 epoch = start_epoch
-                FLAGS.epochs=epoch+100000
+                # FLAGS.epochs=epoch+100000
                 print('till',FLAGS.epochs)
                 # for epoch in range(start_epoch, FLAGS.epochs):
                 while(epoch<FLAGS.epochs):
@@ -107,7 +104,10 @@ def run_training():
                         # ], feed_dict={input_data: batches_inputs, output_targets: batches_outputs})
                         n += 1
                     if epoch % 100 == 0:
+
                         print('Epoch: %d, batch: %d, training loss: %.6f' % (epoch, batch, loss))
+                        log('ssq','Epoch: %d, batch: %d, training loss: %.6f' % (epoch, batch, loss))
+                        #log('start at', '{}:{}'.format(host, port))
                     if epoch % 50000 == 0:
                         saver.save(sess, os.path.join(FLAGS.model_dir, FLAGS.model_prefix), global_step=epoch)
             except KeyboardInterrupt:
