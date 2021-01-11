@@ -13,7 +13,7 @@ from utils import log
 # for Windows10：OSError: raw write() returned invalid length 96 (should have been between 0 and 48)
 # import win_unicode_console
 # win_unicode_console.enable()
-tf.app.flags.DEFINE_integer('batch_size', 2214, 'batch size.')
+tf.app.flags.DEFINE_integer('batch_size', 1107, 'batch size.')
 tf.app.flags.DEFINE_float('learning_rate', 0.0001, 'learning rate.')
 tf.app.flags.DEFINE_string('model_dir', os.path.abspath('./model4all_v4'), 'model save path.')
 tf.app.flags.DEFINE_string('file_path', os.path.abspath('./data/poems.txt'), 'file name of poems.')
@@ -69,6 +69,7 @@ def run_training():
             if checkpoint:
                 saver.restore(sess, checkpoint)
                 print("## restore from the checkpoint {0}".format(checkpoint))
+                log('ssq','## restore from the checkpoint {0}'.format(checkpoint))
                 start_epoch += int(checkpoint.split('-')[-1])
             print('## start training...')
             try:
@@ -115,6 +116,7 @@ def run_training():
             finally:
                 saver.save(sess, os.path.join(FLAGS.model_dir, FLAGS.model_prefix), global_step=epoch)
                 print('## Last epoch were saved, next time will start from epoch {}.'.format(epoch))
+                log('ssq','## Last epoch were saved, next time will start from epoch {}.'.format(epoch))
             # saver.save(sess, os.path.join(FLAGS.model_dir, FLAGS.model_prefix), global_step=epoch)
 
 
