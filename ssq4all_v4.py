@@ -111,6 +111,12 @@ def run_training():
                         #log('start at', '{}:{}'.format(host, port))
                     if epoch % 50000 == 0:
                         saver.save(sess, os.path.join(FLAGS.model_dir, FLAGS.model_prefix), global_step=epoch)
+                    if loss < 0.000555 :
+                        saver.save(sess, os.path.join(FLAGS.model_dir, FLAGS.model_prefix), global_step=epoch)
+                        print('Epoch: %d, batch: %d, training loss: %.6f' % (epoch, batch, loss))
+                        log('ssq','save & break Epoch: %d, batch: %d, training loss: %.6f' % (epoch, batch, loss))
+                        break
+
             except KeyboardInterrupt:
                 print('## Interrupt manually, try saving checkpoint for now...')
             finally:
